@@ -36,14 +36,14 @@ class TransapiWordResult(AbstractResult):
         data = json.loads(self._raw['result'])
         try:
             data = json.loads(self._raw['result'])
-            dst = (data['voice'][0]['en_phonic'])
+            dst = data['voice'][0]['en_phonic']
 
             for entry in data['content'][0]['mean']:
-                dst+=' '+entry['pre']+' '
+                dst += ' '+entry['pre']+' '
                 for mean in entry['cont'].keys():
                     if dst[-1] != ' ':
-                        dst+='；'
-                    dst+=mean
+                        dst += '；'
+                    dst += mean
             # default return one result
             return dst
         except:
