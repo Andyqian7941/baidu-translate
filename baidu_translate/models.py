@@ -34,10 +34,22 @@ class TransapiSentenceResult(AbstractResult):
 class TransapiWordResult(AbstractResult):
     def __str__(self):
         data = json.loads(self._raw['result'])
+        try:
+            data = json.loads(self._raw['result'])
+            dst = (data['voice'][0]['en_phonic'])
 
-        dst = []
+            for entry in data['content'][0]['mean']:
+                dst+=' '+entry['pre']+' '
+                for mean in entry['cont'].keys():
+                    if dst[-1] != ' ':
+                        dst+='；'
+                    dst+=mean
+            # default return one result
+            return dst
+        except:
+            dst = []
 
-        for entry in data['content'][0]['mean']:
-            dst += entry['cont'].keys()
-        # default return one result
-        return dst[0]
+            for entry in data['content'][0]['mean']:
+                dst += entry['cont'].keys()
+            # default return one result
+            return dst[0]
